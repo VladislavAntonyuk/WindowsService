@@ -1,0 +1,1 @@
+[Creating screen brightness service with .NET 5](https://vladislavantonyuk.azurewebsites.net/articles/3 "Creating screen brightness service with .NET 5")
