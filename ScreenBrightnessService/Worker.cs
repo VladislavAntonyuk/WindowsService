@@ -15,7 +15,10 @@ namespace ScreenBrightnessService
 			{
 				var powerState = PowerState.GetPowerState();
 				if (powerState.BatteryFlag == BatteryFlag.NoSystemBattery)
+				{
+					LogService.LogService.Log("No system battery");
 					await StopAsync(stoppingToken);
+				}
 				else
 				{
 					var currentBrightness = BrightnessService.BrightnessService.GetBrightness();
@@ -25,6 +28,7 @@ namespace ScreenBrightnessService
 					if (currentBrightness != desiredBrightness)
 					{
 						BrightnessService.BrightnessService.SetBrightness(desiredBrightness);
+						LogService.LogService.Log($"CurrentBrightness: {desiredBrightness}");
 					}
 				}
 
