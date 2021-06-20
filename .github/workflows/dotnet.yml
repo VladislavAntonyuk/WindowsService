@@ -22,11 +22,6 @@ jobs:
       run: |
           dotnet publish /p:Configuration=Release /p:PublishProfile=FolderProfile
           powershell Compress-Archive './ScreenBrightnessService/bin/Release/net5.0-windows/publish/' 'output.zip'
-    - name: Create GitHub Release
-      uses: pipe-cd/actions-gh-release@v1.1.0
-      with:
-        release_file: ./output.zip
-        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
