@@ -4,5 +4,6 @@ updates:
   directory: "/"
   schedule:
     interval: daily
-    time: "03:00"
+  reviewers:
+    - "VladislavAntonyuk"
   open-pull-requests-limit: 10
