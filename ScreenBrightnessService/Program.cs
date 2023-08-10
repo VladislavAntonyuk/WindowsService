@@ -1,19 +1,16 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ScreenBrightnessService.Models;
+using ScreenBrightnessService.Workers;
 
-namespace ScreenBrightnessService
+var builder = Host.CreateDefaultBuilder(args);
+builder.ConfigureServices((hostBuilder, services) =>
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			CreateHostBuilder(args).Build().Run();
-		}
+    services.Configure<BrightnessConfiguration>(hostBuilder.Configuration.GetRequiredSection("Brightness"));
+    services.Configure<ThemeConfiguration>(hostBuilder.Configuration.GetRequiredSection("Theme"));
+    services.AddHostedService<BrightnessWorker>();
+    services.AddHostedService<ThemeWorker>();
+}).UseWindowsService();
 
-		public static IHostBuilder CreateHostBuilder(string[] args)
-		{
-			return Host.CreateDefaultBuilder(args)
-				.ConfigureServices((_, services) => { services.AddHostedService<Worker>(); }).UseWindowsService();
-		}
-	}
-}
+builder.Build().Run();
