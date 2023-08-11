@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using ScreenBrightnessService.Models;
-using ScreenBrightnessService.Services.BatteryService;
-using ScreenBrightnessService.Services.BrightnessService;
-using ScreenBrightnessService.Services.LogService;
+using WindowsService.Models;
+using WindowsService.Services.BatteryService;
+using WindowsService.Services.BrightnessService;
+using WindowsService.Services.LogService;
 
-namespace ScreenBrightnessService.Workers;
+namespace WindowsService.Workers;
 
 public class BrightnessWorker : BackgroundService
 {

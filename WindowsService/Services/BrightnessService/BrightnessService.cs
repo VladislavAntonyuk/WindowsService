@@ -2,7 +2,7 @@
 using System.Management;
 using Microsoft.Win32;
 
-namespace ScreenBrightnessService.Services.BrightnessService;
+namespace WindowsService.Services.BrightnessService;
 
 internal class BrightnessService
 {
@@ -28,17 +28,26 @@ internal class BrightnessService
         try
         {
             var key = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Control\Power\User\PowerSchemes");
+            if (key is null)
+            {
+                return;
+            }
+
             var activePowerScheme = key.GetValue("ActivePowerScheme");
             key = key.OpenSubKey(
                 $@"{activePowerScheme}\7516b95f-f776-4464-8c53-06167f40cc99\aded5e82-b909-4619-9949-f5d71dac0bcb",
                 true);
+            if (key is null)
+            {
+                return;
+            }
+
             key.SetValue("ACSettingIndex", targetBrightness, RegistryValueKind.DWord);
             key.SetValue("DCSettingIndex", targetBrightness, RegistryValueKind.DWord);
         }
         catch (Exception e)
         {
             LogService.LogService.Log(e.Message);
-            throw;
         }
     }
 

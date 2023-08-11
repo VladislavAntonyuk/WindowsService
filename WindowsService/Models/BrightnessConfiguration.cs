@@ -1,4 +1,4 @@
-﻿namespace ScreenBrightnessService.Models;
+﻿namespace WindowsService.Models;
 
 public class BrightnessConfiguration
 {

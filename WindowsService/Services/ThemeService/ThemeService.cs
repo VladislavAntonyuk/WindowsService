@@ -1,21 +1,22 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 
-namespace ScreenBrightnessService.Services.ThemeService;
+namespace WindowsService.Services.ThemeService;
 
 internal class ThemeService
 {
-    public static string GetTheme()
+    public static string? GetTheme()
     {
         try
         {
             var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes");
-            return key is null ? string.Empty : key.GetValue("CurrentTheme", string.Empty).ToString();
+            return key?.GetValue("CurrentTheme", null)?.ToString();
         }
         catch (Exception e)
         {
             LogService.LogService.Log(e.Message);
-            throw;
+            return null;
         }
     }
 
@@ -23,16 +24,11 @@ internal class ThemeService
     {
         try
         {
-            var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes");
-            if (key is not null)
-            {
-                key.SetValue("CurrentTheme", themePath);
-            }
+            Process.Start("rundll32.exe", $"themecpl.dll,OpenThemeAction {themePath}");
         }
         catch (Exception e)
         {
             LogService.LogService.Log(e.Message);
-            throw;
         }
     }
 }

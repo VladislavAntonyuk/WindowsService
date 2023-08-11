@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace ScreenBrightnessService.Services.BatteryService;
+namespace WindowsService.Services.BatteryService;
 
 [StructLayout(LayoutKind.Sequential)]
 public class PowerState

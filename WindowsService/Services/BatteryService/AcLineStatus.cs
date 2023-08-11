@@ -1,4 +1,4 @@
-﻿namespace ScreenBrightnessService.Services.BatteryService;
+﻿namespace WindowsService.Services.BatteryService;
 
 public enum AcLineStatus : byte
 {

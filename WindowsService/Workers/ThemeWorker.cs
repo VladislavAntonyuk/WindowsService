@@ -4,11 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using ScreenBrightnessService.Models;
-using ScreenBrightnessService.Services.LogService;
-using ScreenBrightnessService.Services.ThemeService;
+using WindowsService.Models;
+using WindowsService.Services.LogService;
+using WindowsService.Services.ThemeService;
 
-namespace ScreenBrightnessService.Workers;
+namespace WindowsService.Workers;
 
 public class ThemeWorker : BackgroundService
 {

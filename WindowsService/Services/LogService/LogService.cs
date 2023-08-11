@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ScreenBrightnessService.Services.LogService;
+namespace WindowsService.Services.LogService;
 
 internal class LogService
 {
