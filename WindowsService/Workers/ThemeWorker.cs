@@ -23,7 +23,8 @@ public class ThemeWorker : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            LogService.Log($"CurrentTheme: {ThemeService.GetTheme()}");
+            var currentTheme = ThemeService.GetTheme();
+            LogService.Log($"CurrentTheme: {currentTheme}");
             var themes = _configuration.CurrentValue.Themes;
             if (themes.Count == 0)
             {
@@ -38,8 +39,11 @@ public class ThemeWorker : BackgroundService
                 }
                 else
                 {
-                    LogService.Log($"Target Theme is {targetTheme.Path}");
-                    ThemeService.SetTheme(targetTheme.Path);
+                    if (targetTheme.Path != currentTheme)
+                    {
+                        LogService.Log($"Target Theme is {targetTheme.Path}");
+                        ThemeService.SetTheme(targetTheme.Path);
+                    }
                 }
             }
 
