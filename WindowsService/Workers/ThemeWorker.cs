@@ -42,7 +42,7 @@ public class ThemeWorker : BackgroundService
                     if (targetTheme.Path != currentTheme)
                     {
                         LogService.Log($"Target Theme is {targetTheme.Path}");
-                        ThemeService.SetTheme(targetTheme.Path);
+                        ThemeService.SetTheme(_configuration.CurrentValue.Username, targetTheme.Path);
                     }
                 }
             }

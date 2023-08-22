@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Diagnostics;
+using Microsoft.Win32.TaskScheduler;
 
 namespace WindowsService.Services.ThemeService;
 
@@ -20,11 +20,15 @@ internal class ThemeService
         }
     }
 
-    public static void SetTheme(string themePath)
+    public static void SetTheme(string username, string themePath)
     {
         try
         {
-            Process.Start("rundll32.exe", $"themecpl.dll,OpenThemeAction {themePath}");
+            using var taskDefinition = TaskService.Instance.NewTask();
+            taskDefinition.RegistrationInfo.Author = "Vladislav Antonyuk";
+            taskDefinition.Actions.Add(new ExecAction("powershell", $"start-process -filepath \"{themePath}\"; timeout /t 3; taskkill /im \"systemsettings.exe\" /f"));
+            using var task = TaskService.Instance.RootFolder.RegisterTaskDefinition("WindowsService.ThemeService", taskDefinition, TaskCreation.CreateOrUpdate, username, null, TaskLogonType.None);
+            task.Run();
         }
         catch (Exception e)
         {
