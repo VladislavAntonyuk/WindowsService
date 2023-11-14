@@ -10,7 +10,7 @@
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0-rc.2.23479.6" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0-rc.2.23479.6" />
 		<PackageReference Include="Microsoft.Win32.Registry" Version="6.0.0-preview.5.21301.5" />
-		<PackageReference Include="System.Management" Version="8.0.0-rc.2.23479.6" />
+		<PackageReference Include="System.Management" Version="8.0.0" />
 		<PackageReference Include="TaskScheduler" Version="2.10.1" />
 	</ItemGroup>
 
