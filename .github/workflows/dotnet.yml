@@ -12,20 +12,21 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
   
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3.2.0
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.x
+        dotnet-version: 9.x
 
     - name: Build and publish
       run: |
           dotnet publish /p:Configuration=Release /p:PublishProfile=FolderProfile
-          powershell Compress-Archive './WindowsService/bin/Release/net8.0-windows/publish/' 'output.zip'
+          powershell Compress-Archive './WindowsService/bin/Release/net9.0-windows/publish/' 'output.zip'
 
     - name: Create Release
       uses: "marvinpinto/action-automatic-releases@latest"
+      if: github.ref == 'refs/heads/main'
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "latest"
