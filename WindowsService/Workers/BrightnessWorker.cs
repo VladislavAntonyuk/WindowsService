@@ -9,16 +9,9 @@ using WindowsService.Services.LogService;
 
 namespace WindowsService.Workers;
 
-public class BrightnessWorker : BackgroundService
+public class BrightnessWorker(IOptionsMonitor<BrightnessConfiguration> configuration) : BackgroundService
 {
-    private readonly IOptionsMonitor<BrightnessConfiguration> _configuration;
-
-    public BrightnessWorker(IOptionsMonitor<BrightnessConfiguration> configuration)
-    {
-        _configuration = configuration;
-    }
-
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -30,17 +23,20 @@ public class BrightnessWorker : BackgroundService
             }
             else
             {
-                var batteryBrightness = GetBatteryBrightness();
-                var chargeBrightness = GetChargeBrightness();
-                var currentBrightness = BrightnessService.GetBrightness();
-                var desiredBrightness = powerState.ACLineStatus == AcLineStatus.Offline
-                    ? batteryBrightness
-                    : chargeBrightness;
-                if (currentBrightness != desiredBrightness)
-                {
-                    BrightnessService.SetBrightness(desiredBrightness);
-                    LogService.Log($"CurrentBrightness: {desiredBrightness}");
-                }
+	            if (configuration.CurrentValue.IsEnabled)
+	            {
+					var batteryBrightness = GetBatteryBrightness();
+					var chargeBrightness = GetChargeBrightness();
+					var currentBrightness = BrightnessService.GetBrightness();
+					var desiredBrightness = powerState.ACLineStatus == AcLineStatus.Offline
+						? batteryBrightness
+						: chargeBrightness;
+					if (currentBrightness != desiredBrightness)
+					{
+						BrightnessService.SetBrightness(desiredBrightness);
+						LogService.Log($"CurrentBrightness: {desiredBrightness}");
+					}
+				}
             }
 
             await Task.Delay(1000, stoppingToken);
@@ -49,13 +45,13 @@ public class BrightnessWorker : BackgroundService
 
     private byte GetBatteryBrightness()
     {
-        var batteryBrightness = _configuration.CurrentValue.Battery;
+        var batteryBrightness = configuration.CurrentValue.Battery;
         return batteryBrightness <= 100 ? batteryBrightness : (byte)100;
     }
 
     private byte GetChargeBrightness()
     {
-        var chargeBrightness = _configuration.CurrentValue.Charge;
+        var chargeBrightness = configuration.CurrentValue.Charge;
         return chargeBrightness > 100 ? (byte)100 : chargeBrightness;
     }
 }

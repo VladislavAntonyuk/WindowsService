@@ -11,6 +11,7 @@ builder.ConfigureServices((hostBuilder, services) =>
     services.Configure<ThemeConfiguration>(hostBuilder.Configuration.GetRequiredSection("ThemesConfiguration"));
     services.AddHostedService<BrightnessWorker>();
     services.AddHostedService<ThemeWorker>();
+    services.AddHostedService<KeyListenerWorker>();
 }).UseWindowsService();
 
 builder.Build().Run();
